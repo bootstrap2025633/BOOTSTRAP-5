@@ -1,158 +1,55 @@
-/* style-loading.css
-   Advanced loading visuals:
-   - Animated gradient + subtle particles
-   - Glass card with neon rim
-   - Accessible text and reduced-motion support
-*/
-
-/* Theme variables (easy to tweak) */
-:root{
-  --bg-1: #08021a;
-  --bg-2: #170f36;
-  --accent-a: #7c3aed;
-  --accent-b: #ff4d6d;
-  --accent-c: #ffd166;
-  --glass: rgba(255,255,255,0.04);
-  --muted: rgba(255,255,255,0.72);
-  --card-radius: 16px;
-  --max-width: 1100px;
+@keyframes gradientMove {
+  0% {background-position:0% 50%;}
+  50% {background-position:100% 50%;}
+  100% {background-position:0% 50%;}
 }
 
-/* Reset / base */
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
+@keyframes spin {
+  0%{transform:rotate(0deg);}
+  100%{transform:rotate(360deg);}
+}
+
+body {
   margin:0;
-  font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  color: #fff;
-  background: radial-gradient(800px 400px at 10% 20%, rgba(124,58,237,0.12), transparent 8%),
-              radial-gradient(800px 400px at 90% 80%, rgba(236,72,153,0.08), transparent 12%),
-              linear-gradient(180deg,var(--bg-1),var(--bg-2));
-  background-size: 400% 400%;
-  animation: gradientShift 12s ease infinite;
+  font-family:Arial,sans-serif;
+  background:linear-gradient(-45deg,#1e3a8a,#9333ea,#2563eb,#6d28d9);
+  background-size:400% 400%;
+  animation:gradientMove 10s ease infinite;
+  color:#fff;
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:28px;
+  height:100vh;
 }
 
-/* prefers-reduced-motion support */
-@media (prefers-reduced-motion: reduce){
-  body { animation: none; }
+.loader-container {
+  text-align:center;
 }
 
-/* subtle background animation */
-@keyframes gradientShift {
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
+.logo-placeholder img {
+  width:150px;
+  height:150px;
+  border-radius:20px;
+  margin-bottom:20px;
 }
 
-/* centered frame / container */
-.frame {
-  width: min(var(--max-width), 96vw);
-  border-radius: var(--card-radius);
-  padding: 28px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-  box-shadow: 0 20px 60px rgba(6,4,20,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
-  backdrop-filter: blur(8px);
-  position: relative;
-  overflow: hidden;
+.loading-title {
+  font-size:2rem;
+  margin-bottom:10px;
+  text-shadow:0 0 10px rgba(255,255,255,0.6);
 }
 
-/* decorative particle layer */
-.particles {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.45;
-  mix-blend-mode: screen;
-}
-.particles svg{width:100%;height:100%;display:block;}
-
-/* top: brand area */
-.top {
-  display:flex;align-items:center;justify-content:space-between;gap:16px;z-index:2;
-}
-.brand {
-  display:flex;gap:12px;align-items:center;
-}
-.logo {
-  width:72px;height:72px;border-radius:14px;
-  background: linear-gradient(135deg,var(--accent-a),var(--accent-b));
-  display:grid;place-items:center;color:#0f0420;font-weight:800;font-size:20px;
-  box-shadow: 0 12px 40px rgba(124,58,237,0.16);
-  flex-shrink:0;
-}
-.title {
-  font-size:20px;font-weight:800;letter-spacing:0.6px;margin:0;
-}
-.subtitle { color: var(--muted); font-size:13px; margin-top:2px; }
-
-/* main layout */
-.main {
-  margin-top:18px;display:flex;gap:22px;align-items:flex-start;z-index:2;
-}
-.left {
-  flex:1;
-  border-radius:12px;
-  padding:18px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.007));
-  border: 1px solid rgba(255,255,255,0.02);
-  box-shadow: inset 0 -20px 60px rgba(0,0,0,0.18);
+.loading-subtitle {
+  font-size:1rem;
+  margin-bottom:20px;
+  opacity:0.8;
 }
 
-/* neon preview box with shimmer skeleton */
-.preview {
-  height:380px;border-radius:12px;position:relative;overflow:hidden;
-  display:grid;place-items:center;background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.008));
-  border:1px solid rgba(255,255,255,0.03);
-}
-.preview::after{
-  content:'';position:absolute;inset:0;background:linear-gradient(90deg, rgba(124,58,237,0.06), rgba(236,72,153,0.06));mix-blend-mode:screen;opacity:0.9;animation: pan 10s linear infinite; background-size:200% 200%;
-}
-@keyframes pan{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-
-/* skeleton shimmer (inside preview) */
-.skeleton {
-  width:92%;height:86%;border-radius:10px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-  position:relative;overflow:hidden;
-}
-.skeleton::before{
-  content:'';position:absolute;inset:0;background:linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
-  transform:translateX(-120%);animation: shimmer 0.95s linear infinite;
-}
-@keyframes shimmer{to{transform:translateX(120%)}}
-
-/* progress area */
-.progress-wrap { display:flex;align-items:center;justify-content:space-between;margin-top:14px;gap:12px;}
-.progress {
-  flex:1;height:12px;border-radius:999px;background:rgba(255,255,255,0.04);overflow:hidden;border:1px solid rgba(255,255,255,0.03);
-}
-.progress .bar { height:100%; width:0; background: linear-gradient(90deg,var(--accent-c),#fff); transition: width 350ms ease; }
-
-/* right panel */
-.right { width:300px;padding:12px;border-radius:12px;background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.02); }
-.right .label { font-weight:700; margin-bottom:8px; }
-.right .note { color:var(--muted); font-size:13px; line-height:1.4; }
-
-/* footer small */
-.frame-footer { margin-top:18px; color: rgba(255,255,255,0.72); font-size:13px; text-align:center; }
-
-/* responsive */
-@media (max-width:980px){
-  .main { flex-direction:column; }
-  .right{ width:100% }
-  .preview{ height:260px }
-}
-
-/* small utilities */
-.hidden { display:none!important; }
-.center { display:grid; place-items:center; }
-.muted { color: var(--muted); font-size:13px; }
-.btn {
-  display:inline-block;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.05);cursor:pointer;color:inherit;font-weight:700;
+.spinner {
+  width:80px;
+  height:80px;
+  border:8px solid rgba(255,255,255,0.2);
+  border-top:8px solid #fff;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
 }
